@@ -182,7 +182,7 @@ async def get_backends(namespace=None):
         for service in services.items:
             if service.metadata.labels:
                 if 'type' in service.metadata.labels:
-                    if service.metadata.labels['type'] == 'parksmap-backend':
+                    if service.metadata.labels['type'] == 'backend':
                         if await get_pods_for_service(service, namespace):
                             port = service.spec.ports[0].port
                             name = service.metadata.name
@@ -196,7 +196,7 @@ async def get_backends(namespace=None):
         for route in routes.items:
             if route.metadata.labels:
                 if 'type' in route.metadata.labels:
-                    if route.metadata.labels['type'] == 'parksmap-backend':
+                    if route.metadata.labels['type'] == 'backend':
                         if await get_services_for_route(route, namespace):
                             name = route.metadata.name
                             url = public_address(route)
@@ -267,7 +267,7 @@ async def poll_backends():
         # Get the list of services with our label.
 
         try:
-            default_backend = os.environ.get('PARKSMAP_BACKEND')
+            default_backend = os.environ.get('BACKEND')
 
             if default_backend:
                 endpoints = []
